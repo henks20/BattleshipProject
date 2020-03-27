@@ -22,5 +22,19 @@ public class Main {
             }
             System.out.print('\n');
         }
+
+        double x = 10;
+        double value = f(x);
+        printValue(value);
+        value = f(x *2);
+        printValue(value);
+    }
+
+    static double f(double x) {
+        return x * x * 3;
+    }
+
+    static void printValue(double value) {
+        System.out.println("f(x)=" + value);
     }
 }
