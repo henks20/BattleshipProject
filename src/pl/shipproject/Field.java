@@ -5,11 +5,16 @@ public class Field {
     private final int x;
     private final int y;
     private State state;
+    private Ship ship;
 
     public Field(int x, int y, State state){
         this.x = x;
         this.y = y;
         this.state = state;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     public char stateToChar() {
