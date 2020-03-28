@@ -55,4 +55,11 @@ public class Board {
             System.out.print('\n');
         }
     }
+
+    public boolean addShip(int x, int y, Submarine submarine) {
+        if(x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
+            return false;
+        }
+        return true;
+    }
 }
