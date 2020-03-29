@@ -3,10 +3,13 @@ package pl.shipproject;
 public class Board {
 
     public static final int BOARD_SIZE = 10;
+    public static final int SHIP_TYPES_COUNT = 4;
 
     private Field[][] fields = new Field[BOARD_SIZE][BOARD_SIZE];
 
     private int shipsCount;
+    private int numberOfShipsByDeck[] = new int [SHIP_TYPES_COUNT];
+
 
     public Board() {
         for (int y = 0; y < BOARD_SIZE; y++) {
@@ -58,14 +61,40 @@ public class Board {
         }
     }
 
-    public void addShip(int x, int y, Submarine submarine) throws IllegalMoveException {
+    public void addShip(int x, int y, Ship ship) throws IllegalMoveException {
+        int count = ship.getDecksCount();
+        if(numberOfShipsByDeck[count - 1]
+                == getTotalCountOfShips(count)) {
+            throw new IllegalMoveException("You have all submarines set!");
+        }
         if(x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
             throw new IllegalMoveException("Ship set outside board!");
         }
+        Field[] field = new Field[count];
+        int xToSet = x, yToSet = y;
+        for (int i = 0; i < count; i++) {
+            if(ship.getOrientation() == WarShip.Orientation.HORIZONTAL){
+                xToSet = x + i;
+            } else {
+                yToSet = y + i;
+            }
+            field[i] = fields[yToSet][xToSet];
+            ship.setOnField(field[i], i);
+        }
+
         shipsCount++;
+        numberOfShipsByDeck[count - 1]++;
     }
 
-    public int getShipCount() {
+    private int getTotalCountOfShips(int decksCount) {
+        return SHIP_TYPES_COUNT - decksCount + 1;
+    }
+
+    public int getShipsCount() {
         return shipsCount;
+    }
+
+    public Field getField(int x, int y) {
+        return fields[y][x];
     }
 }

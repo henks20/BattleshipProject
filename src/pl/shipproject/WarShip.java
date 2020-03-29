@@ -10,13 +10,14 @@ public abstract class WarShip implements Ship {
     private int hits;
     private Field[] occupied;
 
-    public WarShip() {
-        occupied = new Field[getDesksCount()];
+    public WarShip(Orientation orientation) {
+        this.orientation = orientation;
+        occupied = new Field[getDecksCount()];
     }
 
     @Override
     public boolean isSunk() {
-        return hits == getDesksCount();
+        return hits == getDecksCount();
     }
 
     public void setOnField(Field field, int deckNo){
@@ -34,36 +35,60 @@ public abstract class WarShip implements Ship {
             }
         }
     }
+
+    public Orientation getOrientation() {
+        return  orientation;
+    }
 }
 
 class Submarine extends WarShip {
 
+    public Submarine(Orientation orientation) {
+        super(orientation);
+    }
+
+    public Submarine() {
+        this(Orientation.HORIZONTAL);
+    }
+
     @Override
-    public int getDesksCount() {
+    public int getDecksCount() {
         return 1;
     }
 }
 
 class Destoyer extends WarShip {
 
+    public Destoyer(Orientation orientation) {
+        super(orientation);
+    }
+
     @Override
-    public int getDesksCount() {
+    public int getDecksCount() {
         return 2;
     }
 }
 
 class Cruiser extends  WarShip {
 
+    public Cruiser(Orientation orientation) {
+        super(orientation);
+    }
+
     @Override
-    public int getDesksCount() {
+    public int getDecksCount() {
         return 3;
     }
 }
 
 class BattleShip extends WarShip {
 
+    public BattleShip(Orientation orientation) {
+        super(orientation);
+    }
+
     @Override
-    public int getDesksCount() {
+    public int getDecksCount() {
         return 4;
     }
 }
