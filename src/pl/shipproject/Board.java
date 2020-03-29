@@ -123,4 +123,23 @@ public class Board {
     public Field getField(int x, int y) {
         return fields[y][x];
     }
+
+    public void shot(int x, int y) throws IllegalMoveException {
+        Field field = getField(x, y);
+        
+        if(field.getState() == State.MISS ||
+            field.getState() == State.HIT ||
+            field.getState() == State.SUNK){
+            throw new IllegalMoveException("You have already shot here");
+        }
+        if(field.getState() == State.EMPTY){
+            field.setState(State.MISS);
+        } else if(field.getState() == State.SHIP){
+            field.setState((State.HIT));
+            field.getShip().hit();
+            if(field.getShip().isSunk()){
+                shipsCount--;
+            }
+        }
+    }
 }

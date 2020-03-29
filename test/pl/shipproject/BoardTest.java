@@ -89,4 +89,53 @@ public class BoardTest {
         //act
         board.addShip(0, 11, new Submarine());
     }
+
+    @Test
+    public void shouldMarkMiss() throws Exception {
+        //arrange
+        //act
+        board.shot(0, 0);
+        //assert
+        assertEquals(State.MISS, board.getField(0, 0).getState());
+    }
+
+    @Test
+    public void shouldMarkAsHit() throws Exception {
+        //arrange
+        board.addShip(0, 0, new Destoyer(WarShip.Orientation.HORIZONTAL));
+        //act
+        board.shot(0, 0);
+        //assert
+        assertEquals(State.HIT, board.getField(0, 0).getState());
+    }
+
+    @Test
+    public void shouldMarkAsSunk() throws Exception {
+        //arrange
+        board.addShip(0, 0, new Destoyer(WarShip.Orientation.HORIZONTAL));
+        board.shot(0, 0);
+        //act
+        board.shot(1, 0);
+        //assert
+        assertEquals(State.SUNK, board.getField(0, 0).getState());
+        assertEquals(State.SUNK, board.getField(1, 0).getState());
+    }
+
+    @Test
+    public void shouldDecreaseShipsOnBoard() throws  Exception {
+        //arrange
+        board.addShip(0, 0, new Submarine());
+        //act
+        board.shot(0,0);
+        //assert
+        assertEquals(0, board.getShipsCount());
+    }
+
+    @Test (expected = IllegalMoveException.class)
+    public void shouldNotBeAbleToShotTwice() throws Exception {
+        //arrange
+        board.shot(0, 0);
+        //act
+        board.shot(0, 0);
+    }
 }

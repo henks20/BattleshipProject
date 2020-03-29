@@ -47,4 +47,8 @@ public class Field {
     public int getX() {
         return x;
     }
+
+    public Ship getShip() {
+        return  ship;
+    }
 }
