@@ -67,9 +67,7 @@ public class Board {
                 == getTotalCountOfShips(count)) {
             throw new IllegalMoveException("You have all submarines set!");
         }
-        if(x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
-            throw new IllegalMoveException("Ship set outside board!");
-        }
+
         Field[] field = new Field[count];
         int xToSet = x, yToSet = y;
         for (int i = 0; i < count; i++) {
@@ -78,12 +76,40 @@ public class Board {
             } else {
                 yToSet = y + i;
             }
+            if(isOutside(xToSet, yToSet)) {
+                throw new IllegalMoveException("Ship set outside board!");
+            }
+
             field[i] = fields[yToSet][xToSet];
+            if(isFieldOccupied(field[i])){
+                throw new IllegalMoveException("Field is occupied");
+            }
+        }
+
+        for (int i = 0; i < count; i++) {
             ship.setOnField(field[i], i);
         }
 
         shipsCount++;
         numberOfShipsByDeck[count - 1]++;
+    }
+
+    private boolean isFieldOccupied(Field field) {
+        for (int y = field.getY() - 1; y <= field.getY() + 1; y++) {
+            for (int x = field.getX() - 1; x <= field.getX() + 1; x++) {
+                if(isOutside(x, y)){
+                    continue;
+                }
+                if(fields[y][x].getState() != State.EMPTY){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isOutside(int x, int y) {
+        return x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE;
     }
 
     private int getTotalCountOfShips(int decksCount) {

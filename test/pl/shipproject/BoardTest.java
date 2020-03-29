@@ -26,7 +26,7 @@ public class BoardTest {
 
     }
 
-    @Test (expected = IllegalMoveException.class)
+    @Test
     public void shouldAddDestroyerOnFields() throws Exception {
         //arrange
         //act
@@ -34,7 +34,21 @@ public class BoardTest {
         //assert
         Field field = board.getField(1, 0);
         assertEquals(State.SHIP, field.getState());
+    }
 
+    @Test (expected = IllegalMoveException.class)
+    public void shouldNotBeAbleToGetOutside() throws Exception {
+        //arrange
+        //act
+        board.addShip(9, 0, new Destoyer(WarShip.Orientation.HORIZONTAL));
+    }
+
+    @Test (expected = IllegalMoveException.class)
+    public void shouldNotBeAbleToBeClose() throws Exception {
+        //arrange
+        board.addShip(0, 0, new Destoyer(WarShip.Orientation.HORIZONTAL));
+        //act
+        board.addShip(2, 0, new Destoyer(WarShip.Orientation.HORIZONTAL));
     }
 
     @Test (expected = IllegalMoveException.class)
