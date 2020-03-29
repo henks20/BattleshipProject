@@ -138,4 +138,13 @@ public class BoardTest {
         //act
         board.shot(0, 0);
     }
+
+    @Test
+    public void shouldHaveAllShipsGenerated() throws  Exception {
+        //arrange
+        //act
+        board.fillBoard();
+        //assert
+        assertEquals(10, board.getShipsCount());
+    }
 }

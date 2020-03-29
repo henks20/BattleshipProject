@@ -1,5 +1,7 @@
 package pl.shipproject;
 
+import java.util.Random;
+
 public class Board {
 
     public static final int BOARD_SIZE = 10;
@@ -20,10 +22,42 @@ public class Board {
     }
 
     public void fillBoard() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                fields[i][j].setState(getRandomShip(Math.random()));
+        Random random = new Random();
+        for (int decks = 1; decks < SHIP_TYPES_COUNT; decks++) {
+            for (int i = 0; i < getTotalCountOfShips(decks); i++) {
+                boolean tryAgain;
+                do {
+                    int x = random.nextInt(BOARD_SIZE);
+                    int y = random.nextInt(BOARD_SIZE);
+                    WarShip.Orientation orientation
+                            = random.nextBoolean() ? WarShip.Orientation.HORIZONTAL
+                            : WarShip.Orientation.VERTICAL;
+                    Ship ship = getShip(decks, orientation);
+
+                    try {
+                        addShip(x, y, ship);
+                        tryAgain = false;
+                    } catch (IllegalMoveException e) {
+                        tryAgain = true;
+                    }
+
+                } while (tryAgain);
             }
+        }
+    }
+
+    private Ship getShip(int decks, WarShip.Orientation orientation) {
+        switch(decks) {
+            case 1:
+                return new Submarine(orientation);
+            case 2:
+                return new Destoyer(orientation);
+            case 3:
+                return new Cruiser(orientation);
+            case 4:
+                return new BattleShip(orientation);
+            default:
+                throw new IllegalArgumentException(String.format("Unknow ship with %d decks", decks));
         }
     }
 
