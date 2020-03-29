@@ -145,6 +145,7 @@ public class BoardTest {
         //act
         board.fillBoard();
         //assert
-        assertEquals(10, board.getShipsCount());
+        assertEquals(9, board.getShipsCount());
     }
+
 }
