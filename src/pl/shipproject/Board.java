@@ -23,7 +23,7 @@ public class Board {
 
     public void fillBoard() {
         Random random = new Random();
-        for (int decks = 1; decks < SHIP_TYPES_COUNT; decks++) {
+        for (int decks = 1; decks <= SHIP_TYPES_COUNT; decks++) {
             for (int i = 0; i < getTotalCountOfShips(decks); i++) {
                 boolean tryAgain;
                 do {
@@ -81,13 +81,9 @@ public class Board {
 
     public void printBoard() {
         printLetters();
-        for (int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 10; i++) {
             int numberToPrint = i;
-            System.out.print(numberToPrint);
 
-            if(numberToPrint < 10) {
-                System.out.print(' ');
-            }
             System.out.print(numberToPrint);
             for (int j = 0; j < 10; j++) {
                 char shipValue = fields[i][j].stateToChar();
